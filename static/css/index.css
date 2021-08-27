@@ -131,7 +131,7 @@ header .showTime {
 
 .map {
   position: relative;
-  height: 8.2rem;
+  height: 8.13rem;
 }
 .map h2 {
   height: 0.6rem;
@@ -151,7 +151,7 @@ header .showTime {
   top: 0;
   left: 0;
   z-index: 5;
-  height: 8.2rem;
+  height: 8.13rem;
   width: 100%;
 }
 .map .map1,

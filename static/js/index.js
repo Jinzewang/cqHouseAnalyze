@@ -53,7 +53,7 @@ $.getJSON('/data/getAvg', function (avgs) {
                 // 去除x坐标轴的颜色
                 axisLine: {
                     lineStyle: {
-                        color: "rgba(255,255,255,.2)"
+                        color: "#ccc"
                     }
                 },
                 axisTick: {
@@ -62,7 +62,7 @@ $.getJSON('/data/getAvg', function (avgs) {
                 // 修饰刻度标签的颜色
                 axisLabel: {
                     textStyle: {
-                        color: "rgba(255,255,255,.6)",
+                        color: "#fff",
                         fontSize: 12
                     },
                     interval: 0,

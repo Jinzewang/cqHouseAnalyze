@@ -1,5 +1,7 @@
 $.getJSON('/data/getHouseSize', function (view_data) {
     (function () {
+        console.log(view_data);
+        console.log(view_data['view_data'][0]);
         var chartDom = document.getElementById('chart_16');
         var myChart = echarts.init(chartDom);
         var option;
@@ -12,14 +14,18 @@ $.getJSON('/data/getHouseSize', function (view_data) {
             },
             legend: {
                 textStyle: {
+                    font: 10,
                     color: '#f5e9e9',
                 },
-                data: ['50以下', '50-100', '100-200', '200以上']
+                data: ['50平米以下', '50-100平米', '100-200平米', '200平米以上']
             },
             grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
+                x: 5,
+                y: 25,
+                borderWidth: 1,
+                left: '5%',
+                right: '6%',
+                bottom: '5%',
                 containLabel: true
             },
             xAxis: {
@@ -32,16 +38,20 @@ $.getJSON('/data/getHouseSize', function (view_data) {
             },
             yAxis: {
                 axisLabel: {
+                    // 坐标轴旋转
+                    rotate: 30,
+                    interval: 0,
                     textStyle: {
-                        color: '#ffffff'
+                        color: '#dee8df'
                     },
+                    fontSize: '8',
                 },
                 type: 'category',
-                data: ['渝中', '江北', '渝北', '南岸', '沙坪坝', '九龙坡', '大渡口','北碚', '巴南']
+                data: ['江北', '渝北', '渝中', '南岸', '巴南', '北碚', '九龙坡','大渡口', '沙坪坝']
             },
             series: [
                 {
-                    name: '50以下',
+                    name: '50平米以下',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -50,10 +60,10 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     emphasis: {
                         focus: 'series'
                     },
-                    data: view_data[0]//形成各区域的列表数据data.service,可以是列表中的列表
+                    data: view_data['view_data'][0]
                 },
                 {
-                    name: '50-100',
+                    name: '50-100平米',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -62,10 +72,10 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     emphasis: {
                         focus: 'series'
                     },
-                    data: view_data[1]
+                    data: view_data['view_data'][1]
                 },
                 {
-                    name: '100-200',
+                    name: '100-200平米',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -74,10 +84,10 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     emphasis: {
                         focus: 'series'
                     },
-                    data: view_data[2]
+                    data: view_data['view_data'][2]
                 },
                 {
-                    name: '200以上',
+                    name: '200平米以上',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -86,7 +96,7 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     emphasis: {
                         focus: 'series'
                     },
-                    data: view_data[3]
+                    data: view_data['view_data'][3]
                 },
                 // {
                 //     name: 'Search Engine',
@@ -104,5 +114,5 @@ $.getJSON('/data/getHouseSize', function (view_data) {
         };
     
         option && myChart.setOption(option);
-    })()
+    })();
 })

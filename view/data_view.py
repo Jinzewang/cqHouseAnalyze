@@ -50,7 +50,7 @@ def get_house_size():
     view_data['view_data'].append(interval2)
     view_data['view_data'].append(interval3)
     view_data['view_data'].append(interval4)
-    return json.dumps(data, ensure_ascii=False)
+    return json.dumps(view_data, ensure_ascii=False)
 
 
 @data.route('/getAvg', methods=['GET'])

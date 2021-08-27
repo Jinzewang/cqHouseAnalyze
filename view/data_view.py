@@ -20,7 +20,7 @@ cursor2.execute('select houses_HouseType,number from housestype')
 
 @data.route("/getFloor", methods=['GET'])
 def get_floor():
-    conn = pymysql.connect(host="localhost", user="root", password="root", database="cqhouseanalyze",
+    conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
                            charset='utf8')
     cursor = conn.cursor()
     cursor.execute('select floor_top, floor_mid, floor_low from floor_location')
@@ -31,7 +31,7 @@ def get_floor():
 
 @data.route("/getHouseSize", methods=['GET'])
 def get_house_size():
-    conn = pymysql.connect(host="localhost", user="root", password="root", database="cqhouseanalyze",
+    conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
                            charset='utf8')
     cursor = conn.cursor()
     cursor.execute('select interval0, interval1, interval2, interval3 from house_size')

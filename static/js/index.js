@@ -130,8 +130,8 @@ $.getJSON('/data/getType', function (data) {
                 itemHeight: 10,
                 x: 'center',
                 y: 'bottom',
-                data: [data['type'][0], data['type'][1], data['type'][2],
-                    data['type'][3], data['type'][4]],
+                data: [data['huxing'][0], data['huxing'][1], data['huxing'][2],
+                    data['huxing'][3], data['huxing'][4]],
                 textStyle: {
                     color: "rgba(255,255,255,.5)",
                     fontSize: "12"
@@ -161,11 +161,11 @@ $.getJSON('/data/getType', function (data) {
                     center: ["50%", "42%"],
                     roseType: "radius",
                     data: [
-                        {value: data['numb'][0], name: data['type'][0]},
-                        {value: data['numb'][1], name: data['type'][1]},
-                        {value: data['numb'][2], name: data['type'][2]},
-                        {value: data['numb'][3], name: data['type'][3]},
-                        {value: data['numb'][4], name: data['type'][4]},
+                        {value: data['price'][0], name: data['huxing'][0]},
+                        {value: data['price'][1], name: data['huxing'][1]},
+                        {value: data['price'][2], name: data['huxing'][2]},
+                        {value: data['price'][3], name: data['huxing'][3]},
+                        {value: data['price'][4], name: data['huxing'][4]},
                     ],
                     itemStyle: {
                         normal: {
@@ -197,5 +197,5 @@ $.getJSON('/data/getType', function (data) {
             myChart.resize();
         });
     })();
-    console.log(data['type'][0])
+    console.log(data['price'])
 });

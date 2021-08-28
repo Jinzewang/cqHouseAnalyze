@@ -13,12 +13,7 @@ from flask import Blueprint
 
 data = Blueprint('data', __name__)
 conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
-                       charset='utf8')
-cursor1 = conn.cursor()
-cursor1.execute('select houses_avgUnitPrice,houses_area from avgprice')
-cursor2 = conn.cursor()
-cursor2.execute('select houses_HouseType,number from housestype')
-
+                           charset='utf8')
 cursot_ky1 = conn.cursor()
 cursot_ky1.execute("select * from gz;")
 cursot_ky2 = conn.cursor()
@@ -61,6 +56,10 @@ def get_house_size():
 
 @data.route('/getAvg', methods=['GET'])
 def get_avg():
+    conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
+                           charset='utf8')
+    cursor1 = conn.cursor()
+    cursor1.execute('select houses_avgUnitPrice,houses_area from avgprice')
     price = cursor1.fetchall()
     avg = {}
     area = {}
@@ -77,15 +76,21 @@ def get_avg():
 
 @data.route('/getType', methods=['GET'])
 def get_type():
+    conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
+                           charset='utf8')
+    cursor2 = conn.cursor()
+    cursor2.execute('select houses_area,houses_HouseType,number from housestype')
     num = cursor2.fetchall()
-    numb = {}
-    type = {}
+    huxing = ["1室", "2室", "3室", "4室", "5室及以上"]
+    price = [0, 0, 0, 0, 0]
     for i in range(len(num)):
-        type[i] = num[i][0]
-        numb[i] = num[i][1]
+        for x in range(len(huxing)):
+            if num[i][1] == huxing[x]:
+                price[x] += num[i][2]
     data = {
-        'numb': numb,
-        'type': type
+        'num': num,
+        'price': price,
+        'huxing': huxing
     }
     data = json.dumps(data)
     return data
@@ -123,7 +128,6 @@ def get_gz():
     return gz
 
 @data.route('/get_relation_data', methods=['GET'])
-
 def get_relation():
 #重庆各区二手房装修情况与单价间关系
     conn = pymysql.connect(host='10.20.220.203', user='root', passwd='sx2626', port=3306, db='python', charset='utf8')

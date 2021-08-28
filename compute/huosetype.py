@@ -17,14 +17,14 @@ for nums in range(len(type)):
             num[i]+=1
     if types[nums]!="1室" and types[nums]!="2室"and types[nums]!="3室"and types[nums]!="4室":
             num[4]+=1
-print(len(types))
+print(types[0])
 print(num)
 print(len(type))
 #将数据写入数据库
-query = "insert into housestype (houses_HouseType,number) values (%s,%s)"
-for r in range(len(num)):
-    houses_HouseType=huxing[r]
-    number=num[r]
-    values=(houses_HouseType,number)
-    cursor.execute(query,values)
-conn.commit()
+# query = "insert into housestype (houses_HouseType,number) values (%s,%s)"
+# for r in range(len(num)):
+#     houses_HouseType=huxing[r]
+#     number=num[r]
+#     values=(houses_HouseType,number)
+#     cursor.execute(query,values)
+# conn.commit()

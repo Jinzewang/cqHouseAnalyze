@@ -17,7 +17,7 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     font: 10,
                     color: '#f5e9e9',
                 },
-                data: ['50平米以下', '50-100平米', '100-200平米', '200平米以上']
+                data: ['50平米以下数量', '50-100平米数量', '100-200平米数量', '200平米以上数量']
             },
             grid: {
                 x: 5,
@@ -38,20 +38,17 @@ $.getJSON('/data/getHouseSize', function (view_data) {
             },
             yAxis: {
                 axisLabel: {
-                    // 坐标轴旋转
-                    rotate: 30,
-                    interval: 0,
                     textStyle: {
                         color: '#dee8df'
                     },
-                    fontSize: '8',
+                    fontSize: '10',
                 },
                 type: 'category',
                 data: ['江北', '渝北', '渝中', '南岸', '巴南', '北碚', '九龙坡','大渡口', '沙坪坝']
             },
             series: [
                 {
-                    name: '50平米以下',
+                    name: '50平米以下数量',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -63,7 +60,7 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     data: view_data['view_data'][0]
                 },
                 {
-                    name: '50-100平米',
+                    name: '50-100平米数量',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -75,7 +72,7 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     data: view_data['view_data'][1]
                 },
                 {
-                    name: '100-200平米',
+                    name: '100-200平米数量',
                     type: 'bar',
                     stack: 'total',
                     label: {
@@ -87,7 +84,7 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                     data: view_data['view_data'][2]
                 },
                 {
-                    name: '200平米以上',
+                    name: '200平米以上数量',
                     type: 'bar',
                     stack: 'total',
                     label: {

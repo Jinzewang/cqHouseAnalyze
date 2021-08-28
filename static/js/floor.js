@@ -13,9 +13,9 @@ $.getJSON('/data/getFloor', function (view_data) {
             },
             tooltip: {},
             grid: {
-                x: 25,
+                x: 40,
                 y: 30,
-                x2: 25,
+                x2: 40,
                 y2: 30,
                 borderWidth: 1,
             },
@@ -49,6 +49,7 @@ $.getJSON('/data/getFloor', function (view_data) {
                     textStyle: {
                         color: '#ffffff'
                     },
+                    fontSize: '10'
                 },
             },
             // Declare several bar series, each will be mapped

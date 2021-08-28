@@ -139,10 +139,7 @@ $.getJSON('/data/getGZ', function (gz) {
             // Declare several bar series, each will be mapped
             // to a column of dataset.source by default.
             series: [
-                {
-                    type: 'bar',
-                    barGap: '0.5'
-                },
+                {type: 'bar'},
                 {type: 'bar'},
                 {type: 'bar'},
                 {type: 'bar'},

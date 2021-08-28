@@ -105,7 +105,19 @@ def get_gz():
         SumPeople.append(i[1])
 
     gz = C_area+SumPeople
-    print(gz)
+
+    data1 = SumPeople
+
+    data2 = ['关注人数']
+
+    data3 = data2+data1
+
+    data4 = ['product']
+
+    data5 = C_area
+
+    data6 = data4+data5
+    print(data6,'\n',data3)
     gz=json.dumps(gz)
 
     return gz
@@ -121,7 +133,7 @@ def get_relation():
 
     data_3 = np.array(data_2)
     data_4= data_3.tolist()    #转换为列表
-    print(data_4)
+    # print(data_4)
     data=[]
     area=[]
 
@@ -129,12 +141,12 @@ def get_relation():
         data.append(i[1])
         area.append(i[0])
 
-    print(area)
+    # print(area)
     area_data=area[0::4]
     mp_data=data[1::4]
     jianz_data=data[2::4]
     jinz_data=data[3::4]
     relation_data=area_data+mp_data+jianz_data+jinz_data
-    print(relation_data)
+    # print(relation_data)
     relation=json.dumps(relation_data)
     return relation

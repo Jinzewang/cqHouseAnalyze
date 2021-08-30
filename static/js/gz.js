@@ -56,7 +56,7 @@ $.getJSON('/data/get_relation_data', function (relation) {
                 {
                     name: '精装',
                     type: 'bar',
-                    data: data3,
+                    data: data4,
                     itemStyle: {
                         barBorderRadius: 3
                     },
@@ -65,7 +65,7 @@ $.getJSON('/data/get_relation_data', function (relation) {
                 {
                     name: '简装',
                     type: 'bar',
-                    data: data4,
+                    data: data3,
                     itemStyle: {
                         barBorderRadius: 3
                     }

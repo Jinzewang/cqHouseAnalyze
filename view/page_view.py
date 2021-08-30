@@ -13,3 +13,8 @@ def login():
 @page.route('/huxing')
 def huxing():
     return render_template("huxing.html")
+
+@page.route('/price_range')
+def region_price_analysis():
+    print(12234566)
+    return render_template("price_range.html")

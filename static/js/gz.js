@@ -91,16 +91,19 @@ $.getJSON('/data/getGZ', function (gz) {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById("gz"));
         var sumPeople = gz.slice(9, 18)
+        var avgPeople = gz.slice(18, 28)
         var C_area = gz.slice(0, 9)
 
-        // console.log(sumPeople, C_area)
         var data1 = sumPeople
-        var data2 = ['关注人数']
+        var data2 = ['总关注数']
         var data3 = data2.concat(data1)
         var data4 = ['product']
         var data5 = C_area
         var data6 = data4.concat(data5)
-        console.log(data3, data6)
+        var data7 = ['平均关注数(10000%)']
+        var data8 = avgPeople
+        var data9 = data7.concat(data8)
+        console.log(data3,data6,data9)
         option = {
             legend: {
                 textStyle: {
@@ -110,7 +113,7 @@ $.getJSON('/data/getGZ', function (gz) {
             tooltip: {},
             dataset: {
                 source: [
-                    data6, data3,
+                    data6, data3,data9
                 ]
             },
             grid: {
@@ -139,15 +142,17 @@ $.getJSON('/data/getGZ', function (gz) {
             // Declare several bar series, each will be mapped
             // to a column of dataset.source by default.
             series: [
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
-                {type: 'bar'},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+                {type: 'bar',barWidth:14},
+
+
 
             ]
         };

@@ -15,7 +15,7 @@ data = Blueprint('data', __name__)
 conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
                            charset='utf8')
 cursot_ky1 = conn.cursor()
-cursot_ky1.execute("select * from gz;")
+cursot_ky1.execute("select * from attention;")
 cursot_ky2 = conn.cursor()
 cursot_ky2.execute("select area,avg from zx;")
 
@@ -103,28 +103,18 @@ def get_gz():
     row2 = np.array(row1)
     row3 = row2.tolist()    #转换为列表
     C_area=[]
-    SumPeople=[]
+    Sum_people=[]
+    people=[]
 
     for i in row3:
         C_area.append(i[0])
-        SumPeople.append(i[1])
+        Sum_people.append(i[1])
+        people.append(i[2])
+        b = [round(float(i)) for i in people]
+        Avg_people = [i * 10000 for i in b]
 
-    gz = C_area+SumPeople
-
-    data1 = SumPeople
-
-    data2 = ['关注人数']
-
-    data3 = data2+data1
-
-    data4 = ['product']
-
-    data5 = C_area
-
-    data6 = data4+data5
-    print(data6,'\n',data3)
+    gz = C_area+Sum_people+Avg_people
     gz=json.dumps(gz)
-
     return gz
 
 @data.route('/get_relation_data', methods=['GET'])

@@ -20,7 +20,8 @@
           "name": "万州",
           "childNum": 1
         }
-      }, {
+      },
+      {
         "id": "500102",
         "type": "Feature",
         "geometry": {
@@ -685,13 +686,13 @@
       map: 'hjkj',
       zoom: 1.2,
       label: {
-        normal: {
-          show: true,
-          color: "#fff",//设地置图字体颜色
-        },
+        // normal: {
+        //   show: true,
+        //   color: "#fff",//设地置图字体颜色
+        // },
         emphasis: {
           show: true, //是否显示标签
-          color: 'RED',//设地置图字体颜色
+          color: '#fff',//设地置图字体颜色
         }
       },
       roam: false, //是否允许缩放

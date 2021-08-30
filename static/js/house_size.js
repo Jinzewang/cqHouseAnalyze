@@ -23,9 +23,9 @@ $.getJSON('/data/getHouseSize', function (view_data) {
                 x: 5,
                 y: 25,
                 borderWidth: 1,
-                left: '5%',
+                left: '1%',
                 right: '6%',
-                bottom: '5%',
+                bottom: '3%',
                 containLabel: true
             },
             xAxis: {

@@ -158,7 +158,7 @@ $.getJSON('/data/getType', function (data) {
                     type: "pie",
                     // 如果radius是百分比则必须加引号
                     radius: ["10%", "70%"],
-                    center: ["50%", "42%"],
+                    center: ["50%", "50%"],
                     roseType: "radius",
                     data: [
                         {value: data['price'][0], name: data['huxing'][0]},

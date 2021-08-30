@@ -761,7 +761,7 @@
           show: false
         }
       },
-      roam: true, //是否允许缩放
+      roam: false, //是否允许缩放
       itemStyle: {
         normal: {
           color: 'rgba(51, 69, 89, .5)', //地图背景色

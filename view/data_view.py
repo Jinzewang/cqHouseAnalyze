@@ -12,227 +12,144 @@ from flask import Blueprint
 
 data = Blueprint('data', __name__)
 
-
-def query():
-    conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",
-                           charset='utf8')
+def getdb():
+    conn = pymysql.connect(
+        host="10.20.220.203",
+        port=3306,
+        user="root",
+        passwd="sx2626",
+        db="python")
     cursor = conn.cursor()
-    cursor.execute('select houses_area,houses_TotalPrice from price_analysis')
-    area = ["'江北'", "'渝北'", "'南岸'", "'渝中'", "'沙坪坝'", "'九龙坡'", "'巴南'", "'大渡口'", "'北碚'"]
-
-    Price_info=cursor.fetchall()
-    Price_area = pd.DataFrame(list(Price_info), columns=["houses_area",'houses_TotalPrice'])
-
-    data_total={}
-    for i in area:
-        query = i + "in houses_area"  # 设置查询时的字符串
-        data_query = Price_area.query(query)  # 找出各区域的数据
-        if eval(i) == "江北":
-            data_jiangbei=data_query.values
-            data_total['data_jiangbei']=data_jiangbei
-        else:
-            if eval(i)=="渝北":
-                data_yubei=data_query.values
-                data_total['data_yubei']=data_yubei
-            else:
-                if eval(i) == "南岸":
-                    data_nanan = data_query.values
-                    data_total['data_nanan'] = data_nanan
-                else:
-                    if eval(i)=="渝中":
-                        data_yuzhong=data_query.values
-                        data_total['data_yuzhong']=data_yuzhong
-                    else:
-                        if eval(i)=="沙坪坝":
-                            data_shapingba=data_query.values
-                            data_total['data_shapingba']=data_shapingba
-                        else:
-                            if eval(i)=="九龙坡":
-                                data_jiulongpo=data_query.values
-                                data_total['data_jiulongpo']=data_jiulongpo
-                            else:
-                                if eval(i)=="巴南":
-                                    data_banan=data_query.values
-                                    data_total['data_banan']=data_banan
-                                else:
-                                    if eval(i)=="大渡口":
-                                        data_dadukou=data_query.values
-                                        data_total['data_dadukou']=data_dadukou
-                                    else:
-                                        if eval(i)=="北碚":
-                                            data_beibei=data_query.values
-                                            data_total['data_beibei']=data_beibei
-    return data_total
+    return cursor
 
 
 
 @data.route("/getPriceAmount",methods=['GET'])
 def get_Price_Amount():
-    data_total=query()
-    UnderThirty = 0
-    ThirtyToSixty = 0
-    SixtyToHundred = 0
-    HundredToHfifty = 0
-    HfiftyToTHundred = 0
-    AboveTHundred = 0
-    for i in data_total:
-        for t in data_total[i]:
-            if float(t[1].split('万')[0])<30:
-                UnderThirty+=1
+    cursor = getdb()
+    cursor.execute('select price_range,data_jiangbei,data_yubei,data_nanan,data_yuzhong,data_shapingba,data_jiulongpo,'
+                   'data_banan,data_dadukou,data_beibei,data_sum from price_amount')
+    Price_amount = cursor.fetchall()
+    print(Price_amount[0][1])
+    for i in Price_amount:
+        if i[0] == '30万以下':
+            UnderThirty_all=i[10]
+        else:
+            if i[0]=='30-60万':
+                ThirtyToSixty_all=i[10]
             else:
-                if float(t[1].split('万')[0])<60 and float(t[1].split('万')[0])>=30:
-                    ThirtyToSixty +=1
+                if i[0]=='60-100万':
+                    SixtyToHundred_all=i[10]
                 else:
-                    if float(t[1].split('万')[0])>=60 and float(t[1].split('万')[0])<100:
-                        SixtyToHundred+=1
+                    if i[0]=='100-150万':
+                        HundredToHfifty_all=i[10]
                     else:
-                        if float(t[1].split('万')[0]) >= 100 and float(t[1].split('万')[0]) < 150:
-                            HundredToHfifty+=1
+                        if i[0]=='150-200万':
+                            HfiftyToTHundred_all=i[10]
                         else:
-                            if float(t[1].split('万')[0]) >= 150 and float(t[1].split('万')[0]) < 200:
-                                HfiftyToTHundred+=1
-                            else:
-                                if float(t[1].split('万')[0]) >= 200:
-                                    AboveTHundred+=1
+                            AboveTHundred_all=i[10]
+
     price_amount_all={
-        'UnderThirty':UnderThirty,
-        'ThirtyToSixty':ThirtyToSixty,
-        'SixtyToHundred':SixtyToHundred,
-        'HundredToHfifty':HundredToHfifty,
-        'HfiftyToTHundred':HfiftyToTHundred,
-        'AboveTHundred':AboveTHundred
+        'UnderThirty':UnderThirty_all,
+        'ThirtyToSixty':ThirtyToSixty_all,
+        'SixtyToHundred':SixtyToHundred_all,
+        'HundredToHfifty':HundredToHfifty_all,
+        'HfiftyToTHundred':HfiftyToTHundred_all,
+        'AboveTHundred':AboveTHundred_all
     }
     price_amount_all=json.dumps(price_amount_all)
+    cursor.close()
     return price_amount_all
 
 @data.route("/getPrice",methods=['GET'])
 def get_Price():
-    # cursor = getdb()
-    data_total=query()
-    for i in data_total:
-        UnderThirty = 0
-        ThirtyToSixty = 0
-        SixtyToHundred = 0
-        HundredToHfifty = 0
-        HfiftyToTHundred = 0
-        AboveTHundred = 0
-        for t in data_total[i]:
-            if float(t[1].split('万')[0])<30:
-                UnderThirty+=1
+    cursor = getdb()
+    cursor.execute('select price_range,data_jiangbei,data_yubei,data_nanan,data_yuzhong,data_shapingba,data_jiulongpo,'
+                   'data_banan,data_dadukou,data_beibei,data_sum from price_amount')
+    Price_amount = cursor.fetchall()
+
+    area=['江北','渝北','南岸','渝中','沙坪坝','九龙坡','巴南','大渡口','北碚']
+    price_amount_jiangbei = {
+        'area':area[0]
+    }
+    price_amount_yubei = {'area':area[1]}
+    price_amount_nanan = {'area':area[2]}
+    price_amount_yuzhong = {'area':area[3]}
+    price_amount_shapingba = {'area':area[4]}
+    price_amount_jiulongpo = {'area':area[5]}
+    price_amount_banan = {'area':area[6]}
+    price_amount_dadukou = {'area':area[7]}
+    price_amount_beibei = {'area':area[8]}
+
+    for i in Price_amount:
+        # print(i)
+        if i[0] == '30万以下':
+            price_amount_jiangbei['UnderThirty'] = i[1]
+            price_amount_yubei['UnderThirty'] = i[2]
+            price_amount_nanan['UnderThirty'] = i[3]
+            price_amount_yuzhong['UnderThirty'] = i[4]
+            price_amount_shapingba['UnderThirty'] = i[5]
+            price_amount_jiulongpo['UnderThirty'] = i[6]
+            price_amount_banan['UnderThirty'] = i[7]
+            price_amount_dadukou['UnderThirty'] = i[8]
+            price_amount_beibei['UnderThirty'] = i[9]
+        else:
+            if i[0]=='30-60万':
+                price_amount_jiangbei['ThirtyToSixty'] = i[1]
+                price_amount_yubei['ThirtyToSixty'] = i[2]
+                price_amount_nanan['ThirtyToSixty'] = i[3]
+                price_amount_yuzhong['ThirtyToSixty'] = i[4]
+                price_amount_shapingba['ThirtyToSixty'] = i[5]
+                price_amount_jiulongpo['ThirtyToSixty'] = i[6]
+                price_amount_banan['ThirtyToSixty'] = i[7]
+                price_amount_dadukou['ThirtyToSixty'] = i[8]
+                price_amount_beibei['ThirtyToSixty'] = i[9]
+
             else:
-                if float(t[1].split('万')[0])<60 and float(t[1].split('万')[0])>=30:
-                    ThirtyToSixty +=1
+                if i[0]=='60-100万':
+                    price_amount_jiangbei['SixtyToHundred'] = i[1]
+                    price_amount_yubei['SixtyToHundred'] = i[2]
+                    price_amount_nanan['SixtyToHundred'] = i[3]
+                    price_amount_yuzhong['SixtyToHundred'] = i[4]
+                    price_amount_shapingba['SixtyToHundred'] = i[5]
+                    price_amount_jiulongpo['SixtyToHundred'] = i[6]
+                    price_amount_banan['SixtyToHundred'] = i[7]
+                    price_amount_dadukou['SixtyToHundred'] = i[8]
+                    price_amount_beibei['SixtyToHundred'] = i[9]
+
                 else:
-                    if float(t[1].split('万')[0])>=60 and float(t[1].split('万')[0])<100:
-                        SixtyToHundred+=1
+                    if i[0]=='100-150万':
+                        price_amount_jiangbei['HundredToHfifty'] = i[1]
+                        price_amount_yubei['HundredToHfifty'] = i[2]
+                        price_amount_nanan['HundredToHfifty'] = i[3]
+                        price_amount_yuzhong['HundredToHfifty'] = i[4]
+                        price_amount_shapingba['HundredToHfifty'] = i[5]
+                        price_amount_jiulongpo['HundredToHfifty'] = i[6]
+                        price_amount_banan['HundredToHfifty'] = i[7]
+                        price_amount_dadukou['HundredToHfifty'] = i[8]
+                        price_amount_beibei['HundredToHfifty'] = i[9]
                     else:
-                        if float(t[1].split('万')[0]) >= 100 and float(t[1].split('万')[0]) < 150:
-                            HundredToHfifty+=1
+                        if i[0]=='150-200万':
+                            price_amount_jiangbei['HfiftyToTHundred'] = i[1]
+                            price_amount_yubei['HfiftyToTHundred'] = i[2]
+                            price_amount_nanan['HfiftyToTHundred'] = i[3]
+                            price_amount_yuzhong['HfiftyToTHundred'] = i[4]
+                            price_amount_shapingba['HfiftyToTHundred'] = i[5]
+                            price_amount_jiulongpo['HfiftyToTHundred'] = i[6]
+                            price_amount_banan['HfiftyToTHundred'] = i[7]
+                            price_amount_dadukou['HfiftyToTHundred'] = i[8]
+                            price_amount_beibei['HfiftyToTHundred'] = i[9]
+
                         else:
-                            if float(t[1].split('万')[0]) >= 150 and float(t[1].split('万')[0]) < 200:
-                                HfiftyToTHundred+=1
-                            else:
-                                if float(t[1].split('万')[0]) >= 200:
-                                    AboveTHundred+=1
-            if t[0]=='北碚':
-                # price_amount_beibei=[UnderThirty,ThirtyToSixty,SixtyToHundred,EightyToHundred,HundredToHfifty,HfiftyToTHundred,AboveTHundred]
-                price_amount_beibei={
-                    'area': t[0],
-                    'UnderThirty': UnderThirty,
-                    'ThirtyToSixty': ThirtyToSixty,
-                    'SixtyToHundred': SixtyToHundred,
-                    'HundredToHfifty': HundredToHfifty,
-                    'HfiftyToTHundred': HfiftyToTHundred,
-                    'AboveTHundred': AboveTHundred
-                }
-            else:
-                if t[0]=='江北':
-                    price_amount_jiangbei = {
-                        'area': t[0],
-                        'UnderThirty': UnderThirty,
-                        'ThirtyToSixty': ThirtyToSixty,
-                        'SixtyToHundred': SixtyToHundred,
-                        'HundredToHfifty': HundredToHfifty,
-                        'HfiftyToTHundred': HfiftyToTHundred,
-                        'AboveTHundred': AboveTHundred
-                    }
-                else:
-                    if t[0] == '渝北':
-                        price_amount_yubei ={
-                            'area': t[0],
-                            'UnderThirty': UnderThirty,
-                            'ThirtyToSixty': ThirtyToSixty,
-                            'SixtyToHundred': SixtyToHundred,
-                            'HundredToHfifty': HundredToHfifty,
-                            'HfiftyToTHundred': HfiftyToTHundred,
-                            'AboveTHundred': AboveTHundred
-                        }
-                    else:
-                        if t[0]=='南岸':
-                            price_amount_nanan={
-                                'area': t[0],
-                                'UnderThirty': UnderThirty,
-                                'ThirtyToSixty': ThirtyToSixty,
-                                'SixtyToHundred': SixtyToHundred,
-                                'HundredToHfifty': HundredToHfifty,
-                                'HfiftyToTHundred': HfiftyToTHundred,
-                                'AboveTHundred': AboveTHundred
-                            }
-                        else:
-                            if t[0]=='渝中':
-                                price_amount_yuzhong={
-                                    'area': t[0],
-                                    'UnderThirty': UnderThirty,
-                                    'ThirtyToSixty': ThirtyToSixty,
-                                    'SixtyToHundred': SixtyToHundred,
-                                    'HundredToHfifty': HundredToHfifty,
-                                    'HfiftyToTHundred': HfiftyToTHundred,
-                                    'AboveTHundred': AboveTHundred
-                                }
-                            else:
-                                if t[0]=='沙坪坝':
-                                    price_amount_shapingba={
-                                        'area': t[0],
-                                        'UnderThirty': UnderThirty,
-                                        'ThirtyToSixty': ThirtyToSixty,
-                                        'SixtyToHundred': SixtyToHundred,
-                                        'HundredToHfifty': HundredToHfifty,
-                                        'HfiftyToTHundred': HfiftyToTHundred,
-                                        'AboveTHundred': AboveTHundred
-                                    }
-                                else:
-                                    if t[0]=='九龙坡':
-                                        price_amount_jiulongpo={
-                                            'area': t[0],
-                                            'UnderThirty': UnderThirty,
-                                            'ThirtyToSixty': ThirtyToSixty,
-                                            'SixtyToHundred': SixtyToHundred,
-                                            'HundredToHfifty': HundredToHfifty,
-                                            'HfiftyToTHundred': HfiftyToTHundred,
-                                            'AboveTHundred': AboveTHundred
-                                        }
-                                    else:
-                                        if t[0]=='巴南':
-                                            price_amount_banan={
-                                                'area': t[0],
-                                                'UnderThirty': UnderThirty,
-                                                'ThirtyToSixty': ThirtyToSixty,
-                                                'SixtyToHundred': SixtyToHundred,
-                                                'HundredToHfifty': HundredToHfifty,
-                                                'HfiftyToTHundred': HfiftyToTHundred,
-                                                'AboveTHundred': AboveTHundred
-                                            }
-                                        else:
-                                            if t[0]=='大渡口':
-                                                price_amount_dadukou={
-                                                    'area': t[0],
-                                                    'UnderThirty': UnderThirty,
-                                                    'ThirtyToSixty': ThirtyToSixty,
-                                                    'SixtyToHundred': SixtyToHundred,
-                                                    'HundredToHfifty': HundredToHfifty,
-                                                    'HfiftyToTHundred': HfiftyToTHundred,
-                                                    'AboveTHundred': AboveTHundred
-                                                }
+                            price_amount_jiangbei['AboveTHundred'] = i[1]
+                            price_amount_yubei['AboveTHundred'] = i[2]
+                            price_amount_nanan['AboveTHundred'] = i[3]
+                            price_amount_yuzhong['AboveTHundred'] = i[4]
+                            price_amount_shapingba['AboveTHundred'] = i[5]
+                            price_amount_jiulongpo['AboveTHundred'] = i[6]
+                            price_amount_banan['AboveTHundred'] = i[7]
+                            price_amount_dadukou['AboveTHundred'] = i[8]
+                            price_amount_beibei['AboveTHundred'] = i[9]
 
     price_amount={
         'price_amount_jiangbei':price_amount_jiangbei,
@@ -247,9 +164,9 @@ def get_Price():
     }
     # print(price_amount['price_amount_jiangbei']['area'])
     price_amount = json.dumps(price_amount)
-    # cursor.close()
+    cursor.close()
     return price_amount
-
+get_Price()
 @data.route("/getAmount",methods=['GET'])
 def get_Amount():
     conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",

@@ -252,6 +252,7 @@ $.getJSON('/data/getAmount',function (amount,ifsuccess) {
     ],
     series: [
       {
+          name:'数量统计',
         type: "pie",
         center: ["50%", "55%"],
         radius: ["15%", "80%"],
@@ -311,7 +312,7 @@ $.getJSON('/data/getAmount',function (amount,ifsuccess) {
 console.log(amount)
 });
 
-//售价分析饼图
+//售价数量分析饼图
 $.getJSON('/data/getPriceAmount',function (price_amount_all,ifsuccess) {
 
 // 折线图定制
@@ -370,23 +371,6 @@ for (var i = 0; i < trafficWay.length; i++) {
                 },
             },
         },
-        {
-            value: 2,
-            name: '',
-            itemStyle: {
-                normal: {
-                    label: {
-                        show: false,
-                    },
-                    labelLine: {
-                        show: false,
-                    },
-                    color: 'rgba(0, 0, 0, 0)',
-                    borderColor: 'rgba(0, 0, 0, 0)',
-                    borderWidth: 0,
-                },
-            },
-        }
     );
 }
 var seriesOption = [
@@ -404,6 +388,7 @@ var seriesOption = [
                     show: true,
                     position: 'outside',
                     color: '#ddd',
+                    fontSize:10,
                     formatter: function (params) {
                         var percent = 0;
                         var total = 0;
@@ -421,10 +406,11 @@ var seriesOption = [
                 },
                 labelLine: {
                     length: 10,
-                    length2: 20,
+                    length2: 15,
                     show: true,
                     color: '#00ffff',
                 },
+
             },
         },
         data: data,
@@ -452,7 +438,7 @@ option = {
         ],
     },
     tooltip: {
-        show: false,
+        show: true,
     },
     legend: {
         orient: 'vertical',//设置图例的方向
@@ -460,8 +446,6 @@ option = {
         top:'1%',
         icon: 'circle',
         itemHeight:10,
-        // orient: 'horizontal',
-        // x: 'left',
         data: price_range,
         align: 'right',
         textStyle: {

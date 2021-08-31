@@ -23,14 +23,14 @@ def getdb():
     return cursor
 
 
-
+#获取各售价区间房屋数量总数
 @data.route("/getPriceAmount",methods=['GET'])
 def get_Price_Amount():
     cursor = getdb()
     cursor.execute('select price_range,data_jiangbei,data_yubei,data_nanan,data_yuzhong,data_shapingba,data_jiulongpo,'
                    'data_banan,data_dadukou,data_beibei,data_sum from price_amount')
     Price_amount = cursor.fetchall()
-    print(Price_amount[0][1])
+
     for i in Price_amount:
         if i[0] == '30万以下':
             UnderThirty_all=i[10]
@@ -61,6 +61,7 @@ def get_Price_Amount():
     cursor.close()
     return price_amount_all
 
+#获取各售价区间各区域房源数量
 @data.route("/getPrice",methods=['GET'])
 def get_Price():
     cursor = getdb()
@@ -82,7 +83,6 @@ def get_Price():
     price_amount_beibei = {'area':area[8]}
 
     for i in Price_amount:
-        # print(i)
         if i[0] == '30万以下':
             price_amount_jiangbei['UnderThirty'] = i[1]
             price_amount_yubei['UnderThirty'] = i[2]
@@ -162,11 +162,11 @@ def get_Price():
         "price_amount_dadukou":price_amount_dadukou,
         'price_amount_beibei':price_amount_beibei
     }
-    # print(price_amount['price_amount_jiangbei']['area'])
     price_amount = json.dumps(price_amount)
     cursor.close()
     return price_amount
-get_Price()
+
+#获取各区域房源数量总数
 @data.route("/getAmount",methods=['GET'])
 def get_Amount():
     conn = pymysql.connect(host="10.20.220.203", user="root", password="sx2626", database="python",

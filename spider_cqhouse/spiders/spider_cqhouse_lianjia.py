@@ -48,10 +48,8 @@ class SpiderCqhouseSpider(scrapy.Spider):
     # 可以重写（override）start_requests()方法，手动生成一个功能更强大的Request对象。
     # 因为伪装浏览器、自动登录等功能都是在Request对象中设置的。
     def start_requests(self):
-        # 生成主城区网址
-        for region in regions:
-            url = "https://cq.lianjia.com" + region
-            yield scrapy.Request(url, headers=self.House_headers, callback=self.url_parse, dont_filter=True)
+        url = "https://cq.lianjia.com"
+        yield scrapy.Request(url, headers=self.House_headers, callback=self.url_parse, dont_filter=True)
 
     # 引擎是怎么知道要将下载好的页面发送给parse()方法而不是其他方法？能否自定义这个方法？
     # 引擎之所以能自动定位，是因为在Request对象中，指定了解析数据的回调函数，而默认情况下，Request指定的解析函数就是parse()方法。

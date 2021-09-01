@@ -681,6 +681,7 @@
       }],
     "UTF8Encoding": true
   });
+  //地图绘制
   option = {
     geo: {
       map: 'hjkj',

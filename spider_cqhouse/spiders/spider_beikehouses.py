@@ -12,7 +12,7 @@ for line in areas:
 
 class CquptbeikehouseSpider(scrapy.Spider):
     name = 'beikehouses'
-    allowed_domains = ['cq.lianjia.com']
+    allowed_domains = ['cq.ke.com']
     current_page=1
     start_urls =ls
 
@@ -90,7 +90,7 @@ class CquptbeikehouseSpider(scrapy.Spider):
             # ±ÍÃ‚
             houses_title=sell.xpath("./div[@class='title']/a/text()").extract()[0].replace(" ","£¨")
             house['houses_title'] = houses_title
-            with open("D:/workspace/20210824/cqHouseAnalyze/spider_cqhouse/spiders/house.csv", "a", encoding='utf_8_sig')as wt:
+            with open("../spider_cqhouse/spiders/house.csv", "a", encoding='utf_8_sig')as wt:
                 wt.write(houses_area+"  "+houses_LocationName+"  "+houses_CommunityName+"  "+houses_HouseType+"  "+houses_HouseSize+"  "+houses_Decoration+"  "+houses_orientation+"  "+houses_floor+"  "+houses_BuildingTime+"  "
                          +houses_structureType+"  "+houses_NumPeople+"  "+houses_ReleaseTime+"  "+houses_TotalPrice
                          +"  "+houses_UnitPrice+"  "+houses_title+"  "+"/n")

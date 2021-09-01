@@ -5,6 +5,8 @@
 
 import scrapy
 
+class SpiderURLItem(scrapy.Item):
+    url=scrapy.Field()
 
 class SpiderCqhouseItem(scrapy.Item):
     # define the fields for your item here like:

@@ -5,7 +5,7 @@ from pyecharts.globals import ThemeType
 from pyecharts.charts import Timeline, Grid, Bar, Map, Pie, Line,Page
 from pyecharts.faker import Faker
 import pandas as pd
-df=pd.read_csv('F:/Dev/hdoop/20210809/yangmin/cqHouseAnalyze/view/House.csv', header=None)
+df=pd.read_csv('view\House.csv', header=None)
 df=df.dropna(axis=0,how='any')
 # print(df)
 #
@@ -29,7 +29,7 @@ for i in groups:
     except:
         nums_is_not_subway.append(0)
 
-print(name,nums_is_subway,nums_is_not_subway)
+# print(name,nums_is_subway,nums_is_not_subway)
 
 
 

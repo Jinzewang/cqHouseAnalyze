@@ -149,9 +149,9 @@ $.getJSON("/data/getYang", function (x) {
     },
             grid: {
         top: '15%',
-        left: '5%',
-        right: '12%',
-        bottom: '6%',
+        left: '2%',
+        right: '2%',
+        bottom: '3%',
         containLabel: true
     },
     "xAxis": [
@@ -293,7 +293,7 @@ $.getJSON("/data/getYang", function (x) {
             ],
             "center": [
                 "40%",
-                "65%"
+                "60%"
             ],
             "label": {
                 "show": true,
